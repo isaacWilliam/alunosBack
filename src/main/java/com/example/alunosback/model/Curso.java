@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @Entity
 
-@SQLDelete(sql = "UPDATE Curso set fg_status = 'F' WHERE id = ?")
+@SQLDelete(sql = "UPDATE curso set fg_status = 'F' WHERE id = ?")
 @Where(clause = "fg_status = 'T'")
 public class Curso {
 
