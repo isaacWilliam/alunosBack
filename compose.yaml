@@ -1,0 +1,39 @@
+services:
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=cursos'
+      - 'MYSQL_PASSWORD=secret'
+      - 'MYSQL_ROOT_PASSWORD=verysecret'
+      - 'MYSQL_USER=myuser'
+    ports:
+      - '3306:3306'
+    networks:
+      - alunos-networks
+
+  backend:
+    image: izakew/aluno-backend
+    #build: Dockerfile
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    networks:
+      - alunos-networks
+    depends_on:
+      mysql:
+        condition: service_started
+
+  front:
+    image: izakew/aluno-front
+    ports:
+      - '81:80'
+    networks:
+      - alunos-networks
+    depends_on:
+      - backend
+
+networks:
+  alunos-networks:
+    driver: bridge
